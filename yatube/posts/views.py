@@ -7,7 +7,7 @@ NUM_OF_POSTS = 10
 
 def index(request):
     template = 'posts/index.html'
-    posts = Post.objects.select_related()[:NUM_OF_POSTS]
+    posts = Post.objects.all()[:NUM_OF_POSTS]
     context_title = {
         'posts': posts
     }
