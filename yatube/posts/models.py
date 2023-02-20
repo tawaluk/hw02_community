@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+import datetime
 
 User = get_user_model()
 
@@ -28,6 +29,9 @@ class Post(models.Model):
         null=True,
         blank=True,
     )
+
+    def __str__(self):
+        return self.text
 
     class Meta:
         ordering = ['-pub_date']
