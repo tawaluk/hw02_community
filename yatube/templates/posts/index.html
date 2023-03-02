@@ -7,13 +7,12 @@
 {% block content %} 
 <div class="container py-5">
   <div class="content-info">
-    <h1>Последние обновления на сайте</h1>
+    <h1><center>Последние обновления на сайте</center></h1>
     {% for post in page_obj %}
       <ul>
         <li>
           <h4>
             Автор: {% if post.author.get_full_name %}{{ post.author.get_full_name }}{% else %}{{ post.author }}{% endif %} <a href="{% url 'posts:profile' post.author %}">все посты пользователя</a>
-            
           </h4>
         </li>
         <li>
@@ -21,10 +20,10 @@
         </li>
       </ul>
       <p>{{ post.text }}</p>
-       <a href="{% url 'posts:post_detail' post.id %}">подробная информация</a>
+       <a href="{% url 'posts:post_edit' post.id %}">подробная информация о посте</a>
       {% if post.group %}
         <p align="right">
-        <a href="{% url 'posts:group_posts' post.group.slug %} "><font            color='black'>
+        <a href="{% url 'posts:group_posts' post.group.slug %} "><font color='black'>
         все записи группы</font>
         </a>
         </p>

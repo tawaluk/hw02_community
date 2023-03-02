@@ -19,7 +19,7 @@
         </li>
     </ul>
     <p>{{ post.text }}</p>
-    <a href="{% url 'posts:post_detail' post.id %}">подробная информация</a>
+    <a href="{% url 'posts:edit' post.id %}">подробная информация</a>
     <br>
     {% if post.group %}
         <a href="{% url 'posts:group_posts' post.group.slug %}">все записи группы</a>

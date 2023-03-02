@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Пост {{ post|truncatechars:30 }}{% endblock %}
+{% block title %}Пост{{ post|truncatechars:30 }}{% endblock %}
 
 {% block content %}
 <div class="row">
@@ -32,9 +32,9 @@
     </ul>
   </aside>
   <article class="col-12 col-md-9">
-    <p>{{ post }}</p>
-    {% if post.author == requser %}
-    <a class="btn btn-primary" href="{% url 'posts:edit' post.id %}">редактировать запись</a>
+    <p>{{ post }}</p> 
+    {% if post.author == user %} 
+    <a class="btn btn-primary" href="{% url 'posts:edit' post.id %}">редактировать запись</a> 
     {% endif %}
   </article>
 </div>

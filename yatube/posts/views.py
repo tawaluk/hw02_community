@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
@@ -47,10 +46,10 @@ def profile(request, username):
     return render(request, template, context)
 
 
-def post_detail(request, post_id):
+def post_edit(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     posts_count = Post.objects.select_related('author').count()
-    template = 'posts/post_detail.html'
+    template = 'posts/post_edit.html'
     context = {
         'post': post, 'posts_count': posts_count}
     return render(request, template, context)
@@ -71,7 +70,7 @@ def post_create(request):
 def post_edit(request, post_id):
     edit_post = get_object_or_404(Post, id=post_id)
     if request.user != edit_post.author:
-        return redirect('posts:post_detail', post_id)
+        return redirect('posts:post_edit', post_id)
     form = PostForm(request.POST or None, instance=edit_post)
     if form.is_valid():
         form.save()
