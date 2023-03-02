@@ -5,23 +5,23 @@
 {% endblock %}
 
 {% block content %} 
-
 <div class="container py-5">
   <div class="content-info">
     <h1>Последние обновления на сайте</h1>
-    {% for post in posts %}
+    {% for post in page_obj %}
       <ul>
         <li>
           <h4>
-            Автор: {{ post.author.get_full_name }}
+            Автор: {% if post.author.get_full_name %}{{ post.author.get_full_name }}{% else %}{{ post.author }}{% endif %} <a href="{% url 'posts:profile' post.author %}">все посты пользователя</a>
+            
           </h4>
         </li>
         <li>
           Дата публикации: {{ post.pub_date|date:"d E Y" }}
         </li>
       </ul>
-      <p>{{ post.text }}</p> 
-  
+      <p>{{ post.text }}</p>
+       <a href="{% url 'posts:post_detail' post.id %}">подробная информация</a>
       {% if post.group %}
         <p align="right">
         <a href="{% url 'posts:group_posts' post.group.slug %} "><font            color='black'>
@@ -34,5 +34,4 @@
     {% include 'includes/paginator.html' %}
   </div>
 </div>
-
 {% endblock %}  

@@ -4,7 +4,6 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import PostForm
-#from .utils import utils
 from .models import Group, Post, User
 
 NUM_OF_POSTS = 10
@@ -22,31 +21,20 @@ def utils(queryset, request):
 
 def index(request):
     post_list = Post.objects.all()
-    paginator = Paginator(post_list, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
     template = 'posts/index.html'
-    posts = Post.objects.all()[:NUM_OF_POSTS]
-    context_title = {
-        'page_obj': page_obj,
-        'posts': posts
-    }
+    context_title = utils(post_list, request)
     return render(request, template, context_title)
 
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
     goup_list_post = group.posts.all()
-    paginator = Paginator(goup_list_post, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
     template = 'posts/group_list.html'
-    posts = group.posts.all()[:NUM_OF_POSTS]
     context = {
-        'page_obj': page_obj,
         'group': group,
-        'posts': posts,
+        'posts': goup_list_post,
     }
+    context.update(utils(goup_list_post, request))
     return render(request, template, context)
 
 

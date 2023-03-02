@@ -1,4 +1,7 @@
+import datetime
+
+
 def year(request):
     return {
-        'year': '2023',
+        'year': int(datetime.datetime.today().strftime('%Y')),
     }
