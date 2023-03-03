@@ -20,7 +20,7 @@
         </li>
       </ul>
       <p>{{ post.text }}</p>
-       <a href="{% url 'posts:post_edit' post.id %}">подробная информация о посте</a>
+       <a href="{% url 'posts:post_detail' post.id %}">подробная информация о посте</a>
       {% if post.group %}
         <p align="right">
         <a href="{% url 'posts:group_posts' post.group.slug %} "><font color='black'>
@@ -31,6 +31,4 @@
       {% if not forloop.last %}<hr>{% endif %}
     {% endfor %}
     {% include 'includes/paginator.html' %}
-  </div>
-</div>
-{% endblock %}  
+{% endblock %}

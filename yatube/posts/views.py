@@ -11,14 +11,11 @@ def utils(queryset, request):
     paginator = Paginator(queryset, NUM_OF_POSTS)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return {
-        'paginator': paginator,
-        'page_obj': page_obj,
-        'page_number': page_number
-    }
+    return {'page_obj': page_obj}
 
 
 def index(request):
+    # Главная страница
     post_list = Post.objects.all()
     template = 'posts/index.html'
     context_title = utils(post_list, request)
@@ -26,6 +23,7 @@ def index(request):
 
 
 def group_posts(request, slug):
+    # Групповая страница
     group = get_object_or_404(Group, slug=slug)
     goup_list_post = group.posts.all()
     template = 'posts/group_list.html'
@@ -38,24 +36,25 @@ def group_posts(request, slug):
 
 
 def profile(request, username):
+    # Страница профиля
     author = get_object_or_404(User, username=username)
-    post_list = Post.objects.select_related('author')
+    post_list = author.posts.all()
     template = 'posts/profile.html'
     context = {'author': author}
     context.update(utils(post_list, request))
     return render(request, template, context)
 
 
-def post_edit(request, post_id):
+def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    posts_count = Post.objects.select_related('author').count()
-    template = 'posts/post_edit.html'
-    context = {
-        'post': post, 'posts_count': posts_count}
+    template = 'posts/post_detail.html'
+    context = {'post': post}
     return render(request, template, context)
+
 
 @login_required
 def post_create(request):
+    # Создание поста
     form = PostForm(request.POST or None)
     if form.is_valid():
         create_post = form.save(commit=False)
@@ -66,8 +65,10 @@ def post_create(request):
     context = {'form': form}
     return render(request, template, context)
 
+
 @login_required
 def post_edit(request, post_id):
+    # Редактирование поста
     edit_post = get_object_or_404(Post, id=post_id)
     if request.user != edit_post.author:
         return redirect('posts:post_edit', post_id)
